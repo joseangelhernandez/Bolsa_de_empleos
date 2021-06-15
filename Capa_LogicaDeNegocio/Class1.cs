@@ -8,5 +8,6 @@ namespace Capa_LogicaDeNegocio
 {
     public class Class1
     {
+        public int Prueba { get; set; }
     }
 }
