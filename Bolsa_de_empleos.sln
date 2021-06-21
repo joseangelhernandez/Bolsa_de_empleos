@@ -9,9 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Entidad", "Capa_Entida
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_LogicaDeNegocio", "Capa_LogicaDeNegocio\Capa_LogicaDeNegocio.csproj", "{F32F8BAB-8835-4A8D-8853-2F03475BF434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiRestEF", "ApiRestEF\ApiRestEF.csproj", "{C636C991-3DD8-4BBE-A6C9-F1240B1C73FF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaPresentacion", "CapaPresentacion\CapaPresentacion.csproj", "{FEEC1377-7055-42F6-A8FA-BEC6FB736D5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiRestEF", "ApiRestEF\ApiRestEF.csproj", "{C636C991-3DD8-4BBE-A6C9-F1240B1C73FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{C636C991-3DD8-4BBE-A6C9-F1240B1C73FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C636C991-3DD8-4BBE-A6C9-F1240B1C73FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C636C991-3DD8-4BBE-A6C9-F1240B1C73FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEEC1377-7055-42F6-A8FA-BEC6FB736D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEEC1377-7055-42F6-A8FA-BEC6FB736D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEEC1377-7055-42F6-A8FA-BEC6FB736D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEEC1377-7055-42F6-A8FA-BEC6FB736D5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
