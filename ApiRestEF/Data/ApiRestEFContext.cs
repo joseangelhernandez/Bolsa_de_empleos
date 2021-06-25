@@ -14,16 +14,18 @@ namespace ApiRestEF.Data
         {
         }
 
-        public DbSet<ApiRestEF.Models.Categoria> Categoria { get; set; }
-
-        public DbSet<ApiRestEF.Models.Administrador> Administrador { get; set; }
-
-        public DbSet<ApiRestEF.Models.Poster> Poster { get; set; }
+        public DbSet<ApiRestEF.Models.Usuario> Usuario { get; set; }
 
         public DbSet<ApiRestEF.Models.Puesto> Puesto { get; set; }
 
-        public DbSet<ApiRestEF.Models.Solicita> Solicita { get; set; }
+        public DbSet<ApiRestEF.Models.Categoria> Categoria { get; set; }
 
-        public DbSet<ApiRestEF.Models.Solicitante> Solicitante { get; set; }
+        public DbSet<ApiRestEF.Models.Modulo> Modulo { get; set; }
+
+        public DbSet<ApiRestEF.Models.Operaciones> Operaciones { get; set; }
+
+        public DbSet<ApiRestEF.Models.Rol> Rol { get; set; }
+
+        public DbSet<ApiRestEF.Models.RolOperacion> RolOperacion { get; set; }
     }
 }

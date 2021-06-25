@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ApiRestEF.Models
 {
-    public class Categoria
+    public class Modulo
     {
         [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }

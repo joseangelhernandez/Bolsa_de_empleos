@@ -12,48 +12,48 @@ namespace ApiRestEF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriasController : ControllerBase
+    public class ModuloesController : ControllerBase
     {
         private readonly ApiRestEFContext _context;
 
-        public CategoriasController(ApiRestEFContext context)
+        public ModuloesController(ApiRestEFContext context)
         {
             _context = context;
         }
 
-        // GET: api/Categorias
+        // GET: api/Moduloes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
+        public async Task<ActionResult<IEnumerable<Modulo>>> GetModulo()
         {
-            return await _context.Categoria.ToListAsync();
+            return await _context.Modulo.ToListAsync();
         }
 
-        // GET: api/Categorias/5
+        // GET: api/Moduloes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Categoria>> GetCategoria(int id)
+        public async Task<ActionResult<Modulo>> GetModulo(int id)
         {
-            var categoria = await _context.Categoria.FindAsync(id);
+            var modulo = await _context.Modulo.FindAsync(id);
 
-            if (categoria == null)
+            if (modulo == null)
             {
                 return NotFound();
             }
 
-            return categoria;
+            return modulo;
         }
 
-        // PUT: api/Categorias/5
+        // PUT: api/Moduloes/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoria(int id, Categoria categoria)
+        public async Task<IActionResult> PutModulo(int id, Modulo modulo)
         {
-            if (id != categoria.Id)
+            if (id != modulo.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(categoria).State = EntityState.Modified;
+            _context.Entry(modulo).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace ApiRestEF.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoriaExists(id))
+                if (!ModuloExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace ApiRestEF.Controllers
             return NoContent();
         }
 
-        // POST: api/Categorias
+        // POST: api/Moduloes
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
+        public async Task<ActionResult<Modulo>> PostModulo(Modulo modulo)
         {
-            _context.Categoria.Add(categoria);
+            _context.Modulo.Add(modulo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategoria", new { id = categoria.Id }, categoria);
+            return CreatedAtAction("GetModulo", new { id = modulo.Id }, modulo);
         }
 
-        // DELETE: api/Categorias/5
+        // DELETE: api/Moduloes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Categoria>> DeleteCategoria(int id)
+        public async Task<ActionResult<Modulo>> DeleteModulo(int id)
         {
-            var categoria = await _context.Categoria.FindAsync(id);
-            if (categoria == null)
+            var modulo = await _context.Modulo.FindAsync(id);
+            if (modulo == null)
             {
                 return NotFound();
             }
 
-            _context.Categoria.Remove(categoria);
+            _context.Modulo.Remove(modulo);
             await _context.SaveChangesAsync();
 
-            return categoria;
+            return modulo;
         }
 
-        private bool CategoriaExists(int id)
+        private bool ModuloExists(int id)
         {
-            return _context.Categoria.Any(e => e.Id == id);
+            return _context.Modulo.Any(e => e.Id == id);
         }
     }
 }

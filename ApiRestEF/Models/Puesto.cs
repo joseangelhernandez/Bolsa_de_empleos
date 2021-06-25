@@ -8,18 +8,16 @@ namespace ApiRestEF.Models
     public class Puesto
     {
         [System.ComponentModel.DataAnnotations.Key]
-        public int puesto_id { get; set; }
-        public string descripcion { get; set; }
-        public string nombre { get; set; }
-        public string email { get; set; }
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public string Nombre { get; set; }
+        public string Email { get; set; }
         public string como_aplicar { get; set; }
-        public string ubicacion { get; set; }
-        public string compania { get; set; }
-        public string logo { get; set; }
-        public string tipo { get; set; }
-        public string _url { get; set; }
-        public int categoria_id_pu { get; set; }
-        public int poster_id_pu { get; set; }
-        public bool estado { get; set; }
+        public string Ubicacion { get; set; }
+        public string Compania { get; set; }
+        public string Logo { get; set; }
+        public string Tipo { get; set; }
+        public string Url { get; set; }
+        public bool Estado { get; set; }
     }
 }

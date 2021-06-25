@@ -12,48 +12,48 @@ namespace ApiRestEF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriasController : ControllerBase
+    public class RolesOperacionesController : ControllerBase
     {
         private readonly ApiRestEFContext _context;
 
-        public CategoriasController(ApiRestEFContext context)
+        public RolesOperacionesController(ApiRestEFContext context)
         {
             _context = context;
         }
 
-        // GET: api/Categorias
+        // GET: api/RolesOperaciones
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
+        public async Task<ActionResult<IEnumerable<RolOperacion>>> GetRolOperacion()
         {
-            return await _context.Categoria.ToListAsync();
+            return await _context.RolOperacion.ToListAsync();
         }
 
-        // GET: api/Categorias/5
+        // GET: api/RolesOperaciones/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Categoria>> GetCategoria(int id)
+        public async Task<ActionResult<RolOperacion>> GetRolOperacion(int id)
         {
-            var categoria = await _context.Categoria.FindAsync(id);
+            var rolOperacion = await _context.RolOperacion.FindAsync(id);
 
-            if (categoria == null)
+            if (rolOperacion == null)
             {
                 return NotFound();
             }
 
-            return categoria;
+            return rolOperacion;
         }
 
-        // PUT: api/Categorias/5
+        // PUT: api/RolesOperaciones/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoria(int id, Categoria categoria)
+        public async Task<IActionResult> PutRolOperacion(int id, RolOperacion rolOperacion)
         {
-            if (id != categoria.Id)
+            if (id != rolOperacion.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(categoria).State = EntityState.Modified;
+            _context.Entry(rolOperacion).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace ApiRestEF.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoriaExists(id))
+                if (!RolOperacionExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace ApiRestEF.Controllers
             return NoContent();
         }
 
-        // POST: api/Categorias
+        // POST: api/RolesOperaciones
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
+        public async Task<ActionResult<RolOperacion>> PostRolOperacion(RolOperacion rolOperacion)
         {
-            _context.Categoria.Add(categoria);
+            _context.RolOperacion.Add(rolOperacion);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategoria", new { id = categoria.Id }, categoria);
+            return CreatedAtAction("GetRolOperacion", new { id = rolOperacion.Id }, rolOperacion);
         }
 
-        // DELETE: api/Categorias/5
+        // DELETE: api/RolesOperaciones/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Categoria>> DeleteCategoria(int id)
+        public async Task<ActionResult<RolOperacion>> DeleteRolOperacion(int id)
         {
-            var categoria = await _context.Categoria.FindAsync(id);
-            if (categoria == null)
+            var rolOperacion = await _context.RolOperacion.FindAsync(id);
+            if (rolOperacion == null)
             {
                 return NotFound();
             }
 
-            _context.Categoria.Remove(categoria);
+            _context.RolOperacion.Remove(rolOperacion);
             await _context.SaveChangesAsync();
 
-            return categoria;
+            return rolOperacion;
         }
 
-        private bool CategoriaExists(int id)
+        private bool RolOperacionExists(int id)
         {
-            return _context.Categoria.Any(e => e.Id == id);
+            return _context.RolOperacion.Any(e => e.Id == id);
         }
     }
 }

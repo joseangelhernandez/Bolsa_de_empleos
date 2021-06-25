@@ -12,48 +12,48 @@ namespace ApiRestEF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriasController : ControllerBase
+    public class PuestosController : ControllerBase
     {
         private readonly ApiRestEFContext _context;
 
-        public CategoriasController(ApiRestEFContext context)
+        public PuestosController(ApiRestEFContext context)
         {
             _context = context;
         }
 
-        // GET: api/Categorias
+        // GET: api/Puestos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
+        public async Task<ActionResult<IEnumerable<Puesto>>> GetPuesto()
         {
-            return await _context.Categoria.ToListAsync();
+            return await _context.Puesto.ToListAsync();
         }
 
-        // GET: api/Categorias/5
+        // GET: api/Puestos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Categoria>> GetCategoria(int id)
+        public async Task<ActionResult<Puesto>> GetPuesto(int id)
         {
-            var categoria = await _context.Categoria.FindAsync(id);
+            var puesto = await _context.Puesto.FindAsync(id);
 
-            if (categoria == null)
+            if (puesto == null)
             {
                 return NotFound();
             }
 
-            return categoria;
+            return puesto;
         }
 
-        // PUT: api/Categorias/5
+        // PUT: api/Puestos/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoria(int id, Categoria categoria)
+        public async Task<IActionResult> PutPuesto(int id, Puesto puesto)
         {
-            if (id != categoria.Id)
+            if (id != puesto.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(categoria).State = EntityState.Modified;
+            _context.Entry(puesto).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace ApiRestEF.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoriaExists(id))
+                if (!PuestoExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace ApiRestEF.Controllers
             return NoContent();
         }
 
-        // POST: api/Categorias
+        // POST: api/Puestos
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
+        public async Task<ActionResult<Puesto>> PostPuesto(Puesto puesto)
         {
-            _context.Categoria.Add(categoria);
+            _context.Puesto.Add(puesto);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategoria", new { id = categoria.Id }, categoria);
+            return CreatedAtAction("GetPuesto", new { id = puesto.Id }, puesto);
         }
 
-        // DELETE: api/Categorias/5
+        // DELETE: api/Puestos/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Categoria>> DeleteCategoria(int id)
+        public async Task<ActionResult<Puesto>> DeletePuesto(int id)
         {
-            var categoria = await _context.Categoria.FindAsync(id);
-            if (categoria == null)
+            var puesto = await _context.Puesto.FindAsync(id);
+            if (puesto == null)
             {
                 return NotFound();
             }
 
-            _context.Categoria.Remove(categoria);
+            _context.Puesto.Remove(puesto);
             await _context.SaveChangesAsync();
 
-            return categoria;
+            return puesto;
         }
 
-        private bool CategoriaExists(int id)
+        private bool PuestoExists(int id)
         {
-            return _context.Categoria.Any(e => e.Id == id);
+            return _context.Puesto.Any(e => e.Id == id);
         }
     }
 }

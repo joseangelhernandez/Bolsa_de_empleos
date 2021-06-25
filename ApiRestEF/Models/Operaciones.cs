@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace ApiRestEF.Models
 {
-    public class Categoria
+    public class Operaciones
     {
         [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }
-        public string Nombre { get; set; }
+        public int Nombre { get; set; }
+        public int Id_modulo { get; set; }
     }
 }
