@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{A9265434-84EB-4BE5-B472-ABCF1DE379E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Presentacion", "..\..\..\Desktop\FRONTEND LOGIN Y REGISTER\Capa_Presentacion\Capa_Presentacion.csproj", "{DCBBE4B1-573C-40FB-B8A0-39AC02E0542F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{A9265434-84EB-4BE5-B472-ABCF1DE379E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9265434-84EB-4BE5-B472-ABCF1DE379E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9265434-84EB-4BE5-B472-ABCF1DE379E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCBBE4B1-573C-40FB-B8A0-39AC02E0542F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCBBE4B1-573C-40FB-B8A0-39AC02E0542F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCBBE4B1-573C-40FB-B8A0-39AC02E0542F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCBBE4B1-573C-40FB-B8A0-39AC02E0542F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
