@@ -42,8 +42,6 @@ namespace WebApi.Controllers
                     Tipo = d.tipo,
                     Url = d.C_url
                   }).ToListAsync();
-
-            //Retorna una lista solo de puestos activos
             return lis;
         }
 
