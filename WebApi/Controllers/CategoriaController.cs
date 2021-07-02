@@ -31,14 +31,14 @@ namespace WebApi.Controllers
         [HttpPost]
         public IHttpActionResult Post([FromBody]Models.Request.CategoriaRequest model)
         {
+            var catego = new Models.categoria();
             using (Models.BolsaEmpleosEntities3 db = new Models.BolsaEmpleosEntities3())
             {
-                var catego = new Models.categoria();
                 catego.nombre = model.nombre;
                 db.categorias.Add(catego);
                 db.SaveChanges();
             }
-            return Ok("bien");
+            return Ok(catego);
         }
     }
 }
