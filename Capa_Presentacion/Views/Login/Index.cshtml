@@ -1,0 +1,181 @@
+﻿@model Capa_Presentacion.Models.USUARIOS
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bolsa de Empleos</title>
+    <!-- Favicon -->
+    <link rel="icon" href="~/Assets/img/brand/favicon.png" type="image/png">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="~/Assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="~/Assets/vendor/_fortawesome/fontawesome-5/css/all.min.css" type="text/css">
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="~/Assets/css/argon.css" type="text/css">
+
+    <!--Alertas JS-->
+    <script src="~/Assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+
+
+<body class="bg-default">
+
+    <!-- Navbar -->
+    <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="../../pages/dashboards/dashboard.html">
+                <img src="~/Assets/img/brand/Logo-02.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="../../pages/dashboards/dashboard.html">
+                                <img src="~/Assets/img/brand/Logooscuro-05.png">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href=" " target="_blank" data-toggle="tooltip" data-original-title="Búscanos en Facebook">
+                            <i class="fab fa-facebook-square"></i>
+                            <span class="nav-link-inner--text d-lg-none">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href=" " target="_blank" data-toggle="tooltip" data-original-title="Síguenos en Instagram">
+                            <i class="fab fa-instagram"></i>
+                            <span class="nav-link-inner--text d-lg-none">Instagram</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href=" " target="_blank" data-toggle="tooltip" data-original-title="Síguenos en Twitter">
+                            <i class="fab fa-twitter-square"></i>
+                            <span class="nav-link-inner--text d-lg-none">Twitter</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Main content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header py-7 py-lg-8 pt-lg-9">
+            <div class="container">
+                <div class="header-body text-center mb-7">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+                            <h1 class="text-white">¡Bienvenidos~/As!</h1>
+                            <p class="text-lead text-white">Bolsa de empleos RD</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+        <div class="container mt--8 pb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7">
+                    <div class="card bg-secondary border-0 mb-0">
+                        <div class="card-header bg-transparent pb-5">
+                            <div class="btn-wrapper text-center">
+                                <a class="logo-login"><img src="~/Assets/img/brand/logo_2-03.png"></a>
+                            </div>
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-5">
+                            <div class="text-center text-muted mb-4">
+                                <small>Ingresar con las credenciales oficiales</small>
+                            </div>
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                <form role="form">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                                            </div>
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Usuario", type = "email", required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                            </div>
+                                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Contraseña", type = "password", required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-cambiarpass">
+                                        <a href="/Login/Register.html" class="text-light-pass">No tengo cuenta, registrarme</a>
+                                    </div>
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                        <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                                        <label class="custom-control-label" for=" customCheckLogin">
+                                            <span class="text-muted">Recordar mi cuenta</span>
+                                        </label>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-default my-4">Ingresar</button>
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-5" id="footer-main">
+        <div class="container">
+            <div class="row align-items-center justify-content-xl-between">
+                <div class="col-xl-6">
+                    <div class="copyright text-center text-xl-left text-muted">
+                        &copy; 2021 <a href=" " class="font-weight-bold-footer">Bolsa de empleos</a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                        <li class="nav-item">
+                            <a href=" " class="nav-link" target="_blank">Política de Privacidad</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Core -->
+    <script src="~/Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/vendor/js-cookie/js.cookie.js"></script>
+    <script src="~/Assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/Assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <!-- Argon JS -->
+    <script src="~/Assets/js/argon.js?v=1.2.1"></script>
+</body>
+
+</html>
