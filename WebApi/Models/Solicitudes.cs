@@ -12,13 +12,15 @@ namespace WebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class rol_operacion
+    public partial class Solicitudes
     {
-        public int id { get; set; }
-        public int id_rol { get; set; }
-        public int id_operacion { get; set; }
+        public int id_solicitud { get; set; }
+        public int solicitante { get; set; }
+        public string nombre { get; set; }
+        public string posicion { get; set; }
+        public string empresa { get; set; }
+        public Nullable<int> id_puesto { get; set; }
     
-        public virtual operacione operacione { get; set; }
-        public virtual rol rol { get; set; }
+        public virtual puesto puesto { get; set; }
     }
 }

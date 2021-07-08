@@ -13,10 +13,10 @@ namespace WebApi.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BolsaEmpleosEntities3 : DbContext
+    public partial class BolsaEmpleosEntities1 : DbContext
     {
-        public BolsaEmpleosEntities3()
-            : base("name=BolsaEmpleosEntities3")
+        public BolsaEmpleosEntities1()
+            : base("name=BolsaEmpleosEntities1")
         {
         }
     
@@ -25,12 +25,10 @@ namespace WebApi.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<categoria> categorias { get; set; }
-        public virtual DbSet<modulo> moduloes { get; set; }
-        public virtual DbSet<operacione> operaciones { get; set; }
-        public virtual DbSet<puesto> puestoes { get; set; }
-        public virtual DbSet<rol> rols { get; set; }
-        public virtual DbSet<rol_operacion> rol_operacion { get; set; }
-        public virtual DbSet<usuario> usuarios { get; set; }
+        public virtual DbSet<categoria> categoria { get; set; }
+        public virtual DbSet<puesto> puesto { get; set; }
+        public virtual DbSet<rol> rol { get; set; }
+        public virtual DbSet<Solicitudes> Solicitudes { get; set; }
+        public virtual DbSet<usuario> usuario { get; set; }
     }
 }

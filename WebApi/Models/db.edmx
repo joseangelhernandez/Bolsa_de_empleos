@@ -4,43 +4,28 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BolsaEmpleosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="categoria">
           <Key>
             <PropertyRef Name="categoria_id" />
           </Key>
           <Property Name="categoria_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="modulo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="operaciones">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="50" />
-          <Property Name="id_modulo" Type="int" />
+          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="puesto">
           <Key>
             <PropertyRef Name="puesto_id" />
           </Key>
           <Property Name="puesto_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="300" />
-          <Property Name="nombre" Type="varchar" MaxLength="60" />
-          <Property Name="email" Type="varchar" MaxLength="60" />
-          <Property Name="como_aplicar" Type="varchar" MaxLength="100" />
-          <Property Name="ubicacion" Type="varchar" MaxLength="100" />
-          <Property Name="compania" Type="varchar" MaxLength="100" />
-          <Property Name="logo" Type="varchar" MaxLength="100" />
-          <Property Name="tipo" Type="varchar" MaxLength="100" />
-          <Property Name="_url" Type="varchar" MaxLength="150" />
+          <Property Name="descripcion" Type="nvarchar(max)" />
+          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="como_aplicar" Type="nvarchar(max)" />
+          <Property Name="ubicacion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="compania" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="logo" Type="nvarchar(max)" />
+          <Property Name="Categoria" Type="nvarchar(max)" />
+          <Property Name="Salario" Type="float" />
           <Property Name="estado" Type="bit" />
         </EntityType>
         <EntityType Name="rol">
@@ -50,13 +35,16 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="rol_operacion">
+        <EntityType Name="Solicitudes">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="id_solicitud" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_rol" Type="int" Nullable="false" />
-          <Property Name="id_operacion" Type="int" Nullable="false" />
+          <Property Name="id_solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="solicitante" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="posicion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="empresa" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="id_puesto" Type="int" />
         </EntityType>
         <EntityType Name="usuario">
           <Key>
@@ -65,112 +53,76 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="fecha" Type="date" />
-          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="id_rol" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_operacion">
-          <End Role="operaciones" Type="Self.operaciones" Multiplicity="1" />
-          <End Role="rol_operacion" Type="Self.rol_operacion" Multiplicity="*" />
+        <Association Name="FK_Solicitudes_puesto">
+          <End Role="puesto" Type="Self.puesto" Multiplicity="0..1" />
+          <End Role="Solicitudes" Type="Self.Solicitudes" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="operaciones">
-              <PropertyRef Name="id" />
+            <Principal Role="puesto">
+              <PropertyRef Name="puesto_id" />
             </Principal>
-            <Dependent Role="rol_operacion">
-              <PropertyRef Name="id_operacion" />
+            <Dependent Role="Solicitudes">
+              <PropertyRef Name="id_puesto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_operaciones_modulo">
-          <End Role="modulo" Type="Self.modulo" Multiplicity="0..1" />
-          <End Role="operaciones" Type="Self.operaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="modulo">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="operaciones">
-              <PropertyRef Name="id_modulo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_rol">
+        <Association Name="FK_usuario_rol">
           <End Role="rol" Type="Self.rol" Multiplicity="1" />
-          <End Role="rol_operacion" Type="Self.rol_operacion" Multiplicity="*" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="rol">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="rol_operacion">
+            <Dependent Role="usuario">
               <PropertyRef Name="id_rol" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BolsaEmpleosModelStoreContainer">
+        <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="categoria" EntityType="Self.categoria" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="modulo" EntityType="Self.modulo" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="operaciones" EntityType="Self.operaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="puesto" EntityType="Self.puesto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="rol_operacion" EntityType="Self.rol_operacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solicitudes" EntityType="Self.Solicitudes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_operacion" Association="Self.FK_operacion">
-            <End Role="operaciones" EntitySet="operaciones" />
-            <End Role="rol_operacion" EntitySet="rol_operacion" />
+          <AssociationSet Name="FK_Solicitudes_puesto" Association="Self.FK_Solicitudes_puesto">
+            <End Role="puesto" EntitySet="puesto" />
+            <End Role="Solicitudes" EntitySet="Solicitudes" />
           </AssociationSet>
-          <AssociationSet Name="FK_operaciones_modulo" Association="Self.FK_operaciones_modulo">
-            <End Role="modulo" EntitySet="modulo" />
-            <End Role="operaciones" EntitySet="operaciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_rol" Association="Self.FK_rol">
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
             <End Role="rol" EntitySet="rol" />
-            <End Role="rol_operacion" EntitySet="rol_operacion" />
+            <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BolsaEmpleosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="categoria">
           <Key>
             <PropertyRef Name="categoria_id" />
           </Key>
           <Property Name="categoria_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="modulo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="operaciones" Relationship="Self.FK_operaciones_modulo" FromRole="modulo" ToRole="operaciones" />
-        </EntityType>
-        <EntityType Name="operacione">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="id_modulo" Type="Int32" />
-          <NavigationProperty Name="modulo" Relationship="Self.FK_operaciones_modulo" FromRole="operaciones" ToRole="modulo" />
-          <NavigationProperty Name="rol_operacion" Relationship="Self.FK_operacion" FromRole="operaciones" ToRole="rol_operacion" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="puesto">
           <Key>
             <PropertyRef Name="puesto_id" />
           </Key>
           <Property Name="puesto_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="como_aplicar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ubicacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="compania" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="tipo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="C_url" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="como_aplicar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ubicacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="compania" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Categoria" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Salario" Type="Double" />
           <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="Solicitudes" Relationship="Self.FK_Solicitudes_puesto" FromRole="puesto" ToRole="Solicitudes" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -178,17 +130,19 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="rol_operacion" Relationship="Self.FK_rol" FromRole="rol" ToRole="rol_operacion" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario_rol" FromRole="rol" ToRole="usuario" />
         </EntityType>
-        <EntityType Name="rol_operacion">
+        <EntityType Name="Solicitudes">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="id_solicitud" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_rol" Type="Int32" Nullable="false" />
-          <Property Name="id_operacion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="operacione" Relationship="Self.FK_operacion" FromRole="rol_operacion" ToRole="operaciones" />
-          <NavigationProperty Name="rol" Relationship="Self.FK_rol" FromRole="rol_operacion" ToRole="rol" />
+          <Property Name="id_solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="solicitante" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="posicion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="empresa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_puesto" Type="Int32" />
+          <NavigationProperty Name="puesto" Relationship="Self.FK_Solicitudes_puesto" FromRole="Solicitudes" ToRole="puesto" />
         </EntityType>
         <EntityType Name="usuario">
           <Key>
@@ -197,65 +151,47 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Precision="0" />
-          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rol" Relationship="Self.FK_usuario_rol" FromRole="usuario" ToRole="rol" />
         </EntityType>
-        <Association Name="FK_operaciones_modulo">
-          <End Role="modulo" Type="Self.modulo" Multiplicity="0..1" />
-          <End Role="operaciones" Type="Self.operacione" Multiplicity="*" />
+        <Association Name="FK_Solicitudes_puesto">
+          <End Role="puesto" Type="Self.puesto" Multiplicity="0..1" />
+          <End Role="Solicitudes" Type="Self.Solicitudes" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="modulo">
-              <PropertyRef Name="id" />
+            <Principal Role="puesto">
+              <PropertyRef Name="puesto_id" />
             </Principal>
-            <Dependent Role="operaciones">
-              <PropertyRef Name="id_modulo" />
+            <Dependent Role="Solicitudes">
+              <PropertyRef Name="id_puesto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_operacion">
-          <End Role="operaciones" Type="Self.operacione" Multiplicity="1" />
-          <End Role="rol_operacion" Type="Self.rol_operacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="operaciones">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="rol_operacion">
-              <PropertyRef Name="id_operacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_rol">
+        <Association Name="FK_usuario_rol">
           <End Role="rol" Type="Self.rol" Multiplicity="1" />
-          <End Role="rol_operacion" Type="Self.rol_operacion" Multiplicity="*" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="rol">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="rol_operacion">
+            <Dependent Role="usuario">
               <PropertyRef Name="id_rol" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BolsaEmpleosEntities3" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="categorias" EntityType="Self.categoria" />
-          <EntitySet Name="moduloes" EntityType="Self.modulo" />
-          <EntitySet Name="operaciones" EntityType="Self.operacione" />
-          <EntitySet Name="puestoes" EntityType="Self.puesto" />
-          <EntitySet Name="rols" EntityType="Self.rol" />
-          <EntitySet Name="rol_operacion" EntityType="Self.rol_operacion" />
-          <EntitySet Name="usuarios" EntityType="Self.usuario" />
-          <AssociationSet Name="FK_operaciones_modulo" Association="Self.FK_operaciones_modulo">
-            <End Role="modulo" EntitySet="moduloes" />
-            <End Role="operaciones" EntitySet="operaciones" />
+        <EntityContainer Name="BolsaEmpleosEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categoria" EntityType="Self.categoria" />
+          <EntitySet Name="puesto" EntityType="Self.puesto" />
+          <EntitySet Name="rol" EntityType="Self.rol" />
+          <EntitySet Name="Solicitudes" EntityType="Self.Solicitudes" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_Solicitudes_puesto" Association="Self.FK_Solicitudes_puesto">
+            <End Role="puesto" EntitySet="puesto" />
+            <End Role="Solicitudes" EntitySet="Solicitudes" />
           </AssociationSet>
-          <AssociationSet Name="FK_operacion" Association="Self.FK_operacion">
-            <End Role="operaciones" EntitySet="operaciones" />
-            <End Role="rol_operacion" EntitySet="rol_operacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_rol" Association="Self.FK_rol">
-            <End Role="rol" EntitySet="rols" />
-            <End Role="rol_operacion" EntitySet="rol_operacion" />
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -263,34 +199,17 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BolsaEmpleosModelStoreContainer" CdmEntityContainer="BolsaEmpleosEntities3">
-          <EntitySetMapping Name="categorias">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.categoria">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="BolsaEmpleosEntities1">
+          <EntitySetMapping Name="categoria">
+            <EntityTypeMapping TypeName="Model.categoria">
               <MappingFragment StoreEntitySet="categoria">
                 <ScalarProperty Name="categoria_id" ColumnName="categoria_id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="moduloes">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.modulo">
-              <MappingFragment StoreEntitySet="modulo">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="operaciones">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.operacione">
-              <MappingFragment StoreEntitySet="operaciones">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="id_modulo" ColumnName="id_modulo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="puestoes">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.puesto">
+          <EntitySetMapping Name="puesto">
+            <EntityTypeMapping TypeName="Model.puesto">
               <MappingFragment StoreEntitySet="puesto">
                 <ScalarProperty Name="puesto_id" ColumnName="puesto_id" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -300,36 +219,38 @@
                 <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
                 <ScalarProperty Name="compania" ColumnName="compania" />
                 <ScalarProperty Name="logo" ColumnName="logo" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="C_url" ColumnName="_url" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="rols">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.rol">
+          <EntitySetMapping Name="rol">
+            <EntityTypeMapping TypeName="Model.rol">
               <MappingFragment StoreEntitySet="rol">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="rol_operacion">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.rol_operacion">
-              <MappingFragment StoreEntitySet="rol_operacion">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
-                <ScalarProperty Name="id_operacion" ColumnName="id_operacion" />
+          <EntitySetMapping Name="Solicitudes">
+            <EntityTypeMapping TypeName="Model.Solicitudes">
+              <MappingFragment StoreEntitySet="Solicitudes">
+                <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+                <ScalarProperty Name="solicitante" ColumnName="solicitante" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="posicion" ColumnName="posicion" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+                <ScalarProperty Name="id_puesto" ColumnName="id_puesto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="usuarios">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.usuario">
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="Model.usuario">
               <MappingFragment StoreEntitySet="usuario">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="id_rol" ColumnName="id_rol" />
               </MappingFragment>
@@ -349,7 +270,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
