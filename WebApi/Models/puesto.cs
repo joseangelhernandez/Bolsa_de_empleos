@@ -14,6 +14,12 @@ namespace WebApi.Models
     
     public partial class puesto
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public puesto()
+        {
+            this.Solicitudes = new HashSet<Solicitudes>();
+        }
+    
         public int puesto_id { get; set; }
         public string descripcion { get; set; }
         public string nombre { get; set; }
@@ -22,8 +28,11 @@ namespace WebApi.Models
         public string ubicacion { get; set; }
         public string compania { get; set; }
         public string logo { get; set; }
-        public string tipo { get; set; }
-        public string C_url { get; set; }
+        public string Categoria { get; set; }
+        public Nullable<double> Salario { get; set; }
         public Nullable<bool> estado { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solicitudes> Solicitudes { get; set; }
     }
 }

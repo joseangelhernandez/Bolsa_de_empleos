@@ -4,17 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="37d7baf0fcb044f8aaaa9fa0596f281b" Name="Diagram1" ZoomLevel="64">
-        <EntityTypeShape EntityType="BolsaEmpleosModel.categoria" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BolsaEmpleosModel.modulo" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BolsaEmpleosModel.operacione" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BolsaEmpleosModel.puesto" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BolsaEmpleosModel.rol" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BolsaEmpleosModel.rol_operacion" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BolsaEmpleosModel.usuario" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
-        <AssociationConnector Association="BolsaEmpleosModel.FK_operaciones_modulo" ManuallyRouted="false" />
-        <AssociationConnector Association="BolsaEmpleosModel.FK_operacion" ManuallyRouted="false" />
-        <AssociationConnector Association="BolsaEmpleosModel.FK_rol" ManuallyRouted="false" />
+      <Diagram DiagramId="e0e4e1f71586469d9ab4876b78fba747" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.categoria" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.puesto" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.rol" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Solicitudes" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.usuario" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_Solicitudes_puesto" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_usuario_rol" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

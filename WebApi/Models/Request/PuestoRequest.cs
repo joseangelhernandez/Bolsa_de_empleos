@@ -16,7 +16,9 @@ namespace WebApi.Models.Request
         public string Compania { get; set; }
         public string Logo { get; set; }
         public string Tipo { get; set; }
-        public string Url { get; set; }
-        public bool Estado { get; set; }
+        public string Categoria { get; set; }
+        public Nullable<double> Salario { get; set; }
+        //public string Url { get; set; }
+        public Nullable<bool> Estado { get; set; }
     }
 }

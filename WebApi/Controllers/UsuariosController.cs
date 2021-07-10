@@ -15,26 +15,32 @@ namespace WebApi.Controllers
 {
     public class UsuariosController : ApiController
     {
-        private BolsaEmpleosEntities3 db = new BolsaEmpleosEntities3();
+        private BolsaEmpleosEntities1 db = new BolsaEmpleosEntities1();
 
         // GET: api/Usuarios
-        public IQueryable<usuario> Getusuarios()
+        public IQueryable<usuario> Getusuario()
         {
-            return db.usuarios;
+            return db.usuario;
         }
 
         // GET: api/Usuarios/5
         [ResponseType(typeof(usuario))]
         public async Task<IHttpActionResult> Getusuario(int id)
         {
-            usuario usuario = await db.usuarios.FindAsync(id);
-
+            usuario usuario = await db.usuario.FindAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+            Models.Request.UsuarioRequest usu = new Models.Request.UsuarioRequest();
+            usu.Id = usuario.id;
+            usu.Nombre = usuario.nombre;
+            usu.Email = usuario.email;
+            usu.Password = usuario.password;
+            usu.id_rol = usuario.id_rol;
+
+            return Ok(usu);
         }
 
         // PUT: api/Usuarios/5
@@ -77,34 +83,27 @@ namespace WebApi.Controllers
         public async Task<IHttpActionResult> Postusuario(usuario usuario)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var usu = await db.usuarios.Where(b => b.email == usuario.email).FirstOrDefaultAsync();
+            usuario.password = Encryp.GetSHA256(usuario.password);
 
-            if (usu != null)
-            {
-                return StatusCode(HttpStatusCode.BadRequest);
-            }
-
-            db.usuarios.Add(usuario);
+            db.usuario.Add(usuario);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.id }, usuario);
+            return StatusCode(HttpStatusCode.Created);
         }
 
         // DELETE: api/Usuarios/5
         [ResponseType(typeof(usuario))]
         public async Task<IHttpActionResult> Deleteusuario(int id)
         {
-            usuario usuario = await db.usuarios.FindAsync(id);
+            usuario usuario = await db.usuario.FindAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            db.usuarios.Remove(usuario);
+            db.usuario.Remove(usuario);
             await db.SaveChangesAsync();
 
             return Ok(usuario);
@@ -121,7 +120,7 @@ namespace WebApi.Controllers
 
         private bool usuarioExists(int id)
         {
-            return db.usuarios.Count(e => e.id == id) > 0;
+            return db.usuario.Count(e => e.id == id) > 0;
         }
     }
 }

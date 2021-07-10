@@ -14,24 +14,26 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WebApi.Models;
+using WebApi.Models.Request;
 
 namespace WebApi.Controllers
 {
     [EnableCors(origins: "http://127.0.0.1:5501", headers: "*", methods: "*")]
     public class PuestosController : ApiController
     {
-        private BolsaEmpleosEntities3 db = new BolsaEmpleosEntities3();
+        private BolsaEmpleosEntities1 db = new BolsaEmpleosEntities1();
 
         // GET: api/Puestos
-        public async Task<IEnumerable<Models.Request.PuestoRequest>> Getpuestoes()
+        public async Task<IHttpActionResult> Getpuestoes()
         {
-            List<Models.Request.PuestoRequest> lis = new List<Models.Request.PuestoRequest>();
+            List<PuestoRequest> lis = new List<PuestoRequest>();
 
-            lis = await (from d in db.puestoes
-                   where d.estado == true
-                  select new Models.Request.PuestoRequest
+
+            lis = await (from d in db.puesto
+                  where d.estado == true
+                  select new PuestoRequest
                   {
-                    Id = d.puesto_id, 
+                    Id = d.puesto_id,
                     Descripcion = d.descripcion,
                     Nombre = d.nombre,
                     Email = d.email,
@@ -39,17 +41,19 @@ namespace WebApi.Controllers
                     Ubicacion = d.ubicacion,
                     Compania = d.compania,
                     Logo = d.logo,
-                    Tipo = d.tipo,
-                    Url = d.C_url
+                    Categoria = d.Categoria,
+                    Salario = d.Salario,
+                    Estado = d.estado
                   }).ToListAsync();
-            return lis;
+
+            return Ok(lis);
         }
 
         // GET: api/Puestos/5
         [ResponseType(typeof(puesto))]
         public async Task<IHttpActionResult> Getpuesto(int id)
         {
-            puesto puesto = await db.puestoes.FindAsync(id);
+            puesto puesto = await db.puesto.FindAsync(id);
             if (puesto == null)
             {
                 return NotFound();
@@ -104,7 +108,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.puestoes.Add(puesto);
+            db.puesto.Add(puesto);
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = puesto.puesto_id }, puesto);
@@ -114,14 +118,14 @@ namespace WebApi.Controllers
         [ResponseType(typeof(puesto))]
         public async Task<IHttpActionResult> Deletepuesto(int id)
         {
-            puesto puesto = await db.puestoes.FindAsync(id);
+            puesto puesto = await db.puesto.FindAsync(id);
 
             if (puesto == null)
             {
                 return NotFound();
             }
 
-            db.puestoes.Remove(puesto);
+            db.puesto.Remove(puesto);
             await db.SaveChangesAsync();
 
             return Ok(puesto);
@@ -138,7 +142,7 @@ namespace WebApi.Controllers
 
         private bool puestoExists(int id)
         {
-            return db.puestoes.Count(e => e.puesto_id == id) > 0;
+            return db.puesto.Count(e => e.puesto_id == id) > 0;
         }
     }
 }
