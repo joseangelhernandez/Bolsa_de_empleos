@@ -11,7 +11,16 @@ namespace Capa_Presentacion.Controllers
     public class LoginController : Controller
     {
         BolsaEmpleosEntities bd = new BolsaEmpleosEntities();
-        
+
+        public static IEnumerable<SelectListItem> Rol_Categoria()
+        {
+            IList<SelectListItem> items = new List<SelectListItem>
+            {
+                new SelectListItem(){Text="Empresa", Value="2"},
+                new SelectListItem(){Text="Usuario Solicitante", Value="3"},
+            };
+            return items;
+        }
         public ActionResult AccesoDenegado()
         {
             return View();
@@ -24,12 +33,12 @@ namespace Capa_Presentacion.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(USUARIOS users)
+        public ActionResult Index(usuario users)
         {
 
             if (ModelState.IsValid)
             {
-               var user = bd.USUARIOS.Where(a => a.email == users.email && a.password == users.password).FirstOrDefault();
+               var user = bd.usuario.Where(a => a.email == users.email && a.password == users.password).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -42,15 +51,15 @@ namespace Capa_Presentacion.Controllers
                     Response.Cookies.Add(cookie);
 
 
-                    if (user.rol_id == 1)
+                    if (user.id_rol == 1)
                     {
                         return RedirectToAction("Index", "ModulosAdmin");
                     }
-                    else if (user.rol_id == 2)
+                    else if (user.id_rol == 2)
                     {
                         return RedirectToAction("Index", "ModulosPoster");
                     }
-                    else if(user.rol_id == 3)
+                    else if(user.id_rol == 3)
                     {
                         return RedirectToAction("Index", "ModulosSolicitante");
                     }
@@ -66,5 +75,29 @@ namespace Capa_Presentacion.Controllers
 
             return View();
         }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(usuario _user)
+        {
+            bd.usuario.Add(_user);
+            bd.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Login");
+
+        }
     }
 }
+
+
+

@@ -25,7 +25,10 @@ namespace Capa_Presentacion.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ROLES> ROLES { get; set; }
-        public virtual DbSet<USUARIOS> USUARIOS { get; set; }
+        public virtual DbSet<categoria> categoria { get; set; }
+        public virtual DbSet<puesto> puesto { get; set; }
+        public virtual DbSet<rol> rol { get; set; }
+        public virtual DbSet<Solicitudes> Solicitudes { get; set; }
+        public virtual DbSet<usuario> usuario { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@model Capa_Presentacion.Models.usuario
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -85,7 +86,7 @@
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
                         <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-                            <h1 class="text-white">¡Bienvenidos/a!</h1>
+                            <h1 class="text-white">Registrarme</h1>
                             <p class="text-lead text-white">Bolsa de empleos RD</p>
                         </div>
                     </div>
@@ -116,7 +117,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                                             </div>
-                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Usuario", type = "email", required = "required" } })
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Correo electrónico", type = "email", required = "required" } })
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -127,17 +128,29 @@
                                             @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Contraseña", type = "password", required = "required" } })
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                                            </div>
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre", type = "text", required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                            </div>
+                                            @Html.DropDownListFor(model => model.id_rol, Capa_Presentacion.Controllers.LoginController.Rol_Categoria(), "Tipo de cuenta", new { @class = "form-control", required = "required" })
+                                            
+                                        </div>
+                                    </div>
                                     <div class="form-cambiarpass">
-                                        <a href="@Url.Action("Register","Login")" class="text-light-pass">No tengo cuenta, registrarme</a>
+                                        <a href="@Url.Action("Index","Login")" class="text-light-pass">Ya tengo una cuenta, regresar al Login</a>
                                     </div>
-                                    <div class="custom-control custom-control-alternative custom-checkbox">
-                                        <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-                                        <label class="custom-control-label" for=" customCheckLogin">
-                                            <span class="text-muted">Recordar mi cuenta</span>
-                                        </label>
-                                    </div>
+
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-default my-4">Ingresar</button>
+                                        <button type="submit" class="btn btn-default my-4">Registrarme</button>
                                     </div>
                                 </form>
                             }

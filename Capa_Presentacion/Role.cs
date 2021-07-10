@@ -40,7 +40,7 @@ namespace Capa_Presentacion
         public override string[] GetRolesForUser(string username)
         {
 
-            var rol = db.USUARIOS.Include("ROLES").Where(a => a.email == username).FirstOrDefault().ROLES.rol;
+            var rol = db.usuario.Include("rol").Where(a => a.email == username).FirstOrDefault().rol.nombre;
 
             string[] role = { rol };
 

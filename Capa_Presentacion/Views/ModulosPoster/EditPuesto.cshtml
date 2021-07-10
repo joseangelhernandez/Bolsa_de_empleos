@@ -1,0 +1,102 @@
+﻿@model Capa_Presentacion.Models.puesto
+
+
+<div class="modal fade" id="editPuesto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editPuestoLabel">Editar Puesto de trabajo</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>x</span>
+                </button>
+            </div>
+            <hr />
+            <div class="modal-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.puesto_id)
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre" class="form-control-label">Nombre de la posición</label>
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre", required = "required" } })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="apellido" class="form-control-label">Categoria de la posición</label>
+                                @Html.DropDownList("Categoria", ViewBag.categorias as SelectList, "Seleccione una categoria", new { @class = "form-control", required = "required" })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Correo electrónico de contacto</label>
+                                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Correo electrónico", required = "required" } })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Salario</label>
+                                @Html.EditorFor(model => model.Salario, new { htmlAttributes = new { @class = "form-control", placeholder = "Salario", required = "required", type = "number" } })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.Salario, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Horario</label>
+                                @Html.DropDownListFor(model => model.como_aplicar, Capa_Presentacion.Controllers.ModulosPosterController.HORARIOS(), "Seleccione un horario", new { @class = "form-control", required = "required" })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.como_aplicar, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Ubicación de la posición</label>
+                                @Html.EditorFor(model => model.ubicacion, new { htmlAttributes = new { @class = "form-control", placeholder = "Ubicación", required = "required" } })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.ubicacion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Descripción del puesto</label>
+                                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control", placeholder = "Detalles del puesto de trabajo", required = "required" } })
+                                <div class="row">
+                                    @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect waves-light" data-save="modal">Modificar posición de trabajo</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

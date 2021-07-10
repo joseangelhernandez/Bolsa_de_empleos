@@ -1,10 +1,8 @@
-﻿@model IEnumerable<Capa_Presentacion.Models.puesto>
-
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Bolsa de empleo - Puestos</title>
+    <title>Bolsa de empleo - Inicio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="#" name="author" />
@@ -26,9 +24,6 @@
     <!-- Icons Css -->
     <link href="~/Assets/css/icons.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/Assets/vendor/_fortawesome/fontawesome-5/css/all.min.css" type="text/css">
-
-    <script src="~/Assets/libs/jquery/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -109,9 +104,16 @@
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
+                        <li>
+                            <a href="@Url.Action("Index","ModulosPoster")" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div>
+                                <span>Inicio</span>
+                            </a>
+                        </li>
+
 
                         <li>
-                            <a href="@Url.Action("Index","ModulosSolicitante")" class="waves-effect">
+                            <a href="@Url.Action("GestionarPuestos","ModulosPoster")" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-briefcase"></i></div>
                                 <span>Empleos</span>
                             </a>
@@ -119,7 +121,7 @@
 
 
                         <li>
-                            <a href="@Url.Action("Solicitudes","ModulosSolicitante")" class=" waves-effect">
+                            <a href="/User_Poster/Solicitudes.html" class=" waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-message"></i></div>
                                 <span>Ver solicitudes</span>
                             </a>
@@ -158,35 +160,47 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <h4 class="header-title" style="margin-left: 15px;">Puestos disponibles</h4>
+                                        <h4 class="header-title">Últimos empleos</h4>
 
-                                        <hr />
                                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr>
-                                                    <th>Puesto ID</th>
-                                                    <th>Posición</th>
-                                                    <th>Categoria</th>
-                                                    <th>Salario</th>
-                                                    <th>Solicitar</th>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Office</th>
+                                                    <th>Age</th>
+                                                    <th>Start date</th>
+                                                    <th>Salary</th>
                                                 </tr>
                                             </thead>
 
 
                                             <tbody>
 
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td>@Html.DisplayFor(modelItem => item.puesto_id)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.nombre)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.Categoria)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.Salario)</td>
-                                                        <td>
-                                                            @Html.ActionLink(" ", "MostrarInfo", new { puesto_id = item.puesto_id }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light fas fa-share-square" })
-                                                        </td>
-                                                    </tr>
-                                                }
+                                                <tr>
+                                                    <td>Shad Decker</td>
+                                                    <td>Regional Director</td>
+                                                    <td>Edinburgh</td>
+                                                    <td>51</td>
+                                                    <td>2008/11/13</td>
+                                                    <td>$183,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Michael Bruce</td>
+                                                    <td>Javascript Developer</td>
+                                                    <td>Singapore</td>
+                                                    <td>29</td>
+                                                    <td>2011/06/27</td>
+                                                    <td>$183,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Donna Snider</td>
+                                                    <td>Customer Support</td>
+                                                    <td>New York</td>
+                                                    <td>27</td>
+                                                    <td>2011/01/25</td>
+                                                    <td>$112,000</td>
+                                                </tr>
                                             </tbody>
                                         </table>
 
@@ -243,10 +257,8 @@
 
 
 
-
-
         <!-- JAVASCRIPT -->
-
+        <script src="~/Assets/libs/jquery/jquery.min.js"></script>
         <script src="~/Assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="~/Assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="~/Assets/libs/simplebar/simplebar.min.js"></script>
@@ -274,9 +286,13 @@
         <script src="~/Assets/js/pages/datatables.init.js"></script>
 
         <script src="~/Assets/js/app.js"></script>
-        <script src="~/Assets/js/ModalWindows.js"></script>
 
     </div>
 </body>
 </html>
+
+
+
+
+
 

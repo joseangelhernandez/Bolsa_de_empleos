@@ -11,15 +11,19 @@ namespace Capa_Presentacion.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class USUARIOS
+    using System.Web;
+
+    public partial class Solicitudes
     {
-        public int id { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
+        public int id_solicitud { get; set; }
+        public int solicitante { get; set; }
         public string nombre { get; set; }
-        public int rol_id { get; set; }
+        public string posicion { get; set; }
+        public string empresa { get; set; }
+        public Nullable<int> id_puesto { get; set; }
+        public string CV { get; set; }
     
-        public virtual ROLES ROLES { get; set; }
+        public virtual puesto puesto { get; set; }
+        public HttpPostedFileBase PDF { get; set; }
     }
 }

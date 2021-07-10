@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Capa_Presentacion.Models.puesto>
+﻿@model IEnumerable<Capa_Presentacion.Models.categoria>
+
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Bolsa de empleo - Puestos</title>
+    <title>Bolsa de empleo - Categorias</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="#" name="author" />
@@ -111,7 +112,7 @@
                         <li class="menu-title">Menu</li>
 
                         <li>
-                            <a href="@Url.Action("Index","ModulosSolicitante")" class="waves-effect">
+                            <a href="@Url.Action("Index","ModulosAdmin")" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-briefcase"></i></div>
                                 <span>Empleos</span>
                             </a>
@@ -119,9 +120,23 @@
 
 
                         <li>
-                            <a href="@Url.Action("Solicitudes","ModulosSolicitante")" class=" waves-effect">
+                            <a href="@Url.Action("Solicitudes","ModulosAdmin")" class=" waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-message"></i></div>
                                 <span>Ver solicitudes</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("MostrarCategorias","ModulosAdmin")" class=" waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-apps"></i></div>
+                                <span>Categorias</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Usuarios","ModulosAdmin")" class=" waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-at"></i></div>
+                                <span>Usuarios</span>
                             </a>
                         </li>
                     </ul>
@@ -158,17 +173,21 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <h4 class="header-title" style="margin-left: 15px;">Puestos disponibles</h4>
+                                        <div class="row" style="margin: auto;">
+                                            <h4 class="header-title" style="margin-left: 15px;">Categorias</h4>
+
+                                            <button style="margin-left: auto;" type="button" class="btn btn-success btn-rounded waves-effect waves-light" onclick="location.href='@Url.Action("Categorias", "ModulosAdmin")'">
+                                                <i class="fas fa-plus"></i>  Agregar Categoria
+                                            </button>
+                                        </div>
 
                                         <hr />
                                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr>
-                                                    <th>Puesto ID</th>
-                                                    <th>Posición</th>
-                                                    <th>Categoria</th>
-                                                    <th>Salario</th>
-                                                    <th>Solicitar</th>
+                                                    <th>Categoria ID</th>
+                                                    <th>Nombre de la categoria</th>
+                                                    <th>Eliminar categoria</th>
                                                 </tr>
                                             </thead>
 
@@ -178,12 +197,12 @@
                                                 @foreach (var item in Model)
                                                 {
                                                     <tr>
-                                                        <td>@Html.DisplayFor(modelItem => item.puesto_id)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.categoria_id)</td>
                                                         <td>@Html.DisplayFor(modelItem => item.nombre)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.Categoria)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.Salario)</td>
                                                         <td>
-                                                            @Html.ActionLink(" ", "MostrarInfo", new { puesto_id = item.puesto_id }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light fas fa-share-square" })
+                                                            <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light" id="Delete" onclick="deleteOrder('@item.categoria_id')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -241,7 +260,59 @@
             }, false);
         </script>
 
+        <script type="text/javascript">
+            function deleteOrder(categoria_id) {
+                Swal.fire({
+                    title: "¿Estás seguro/a?",
+                    text: "Una vez eliminado no podrás reestablecerlo.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#DC3545",
+                    confirmButtonColor: "#28A745",
+                    confirmButtonText: "Sí, borrar.",
+                    closeOnConfirm: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
 
+                            type: "POST",
+                            url: '@Url.Action("delete_categoria", "ModulosAdmin")',
+                            data: { "categoria_id": categoria_id},
+                            cache: false,
+                            dataType: 'html',
+
+                        })
+                        Swal.fire({
+                            icon: 'success',
+                            title:'Eliminado',
+                            text:'Este categoria de trabajo se ha eliminado satisfactoriamente',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+
+                        setTimeout(function(){
+                            window.location.reload(1);
+                        }, 2005);
+
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Cancelado',
+                            text: 'Este registro no fue eliminado',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+
+
+
+            }
+        </script>
 
 
 

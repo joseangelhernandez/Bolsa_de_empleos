@@ -1,7 +1,345 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model IEnumerable<Capa_Presentacion.Models.puesto>
 
-<h2>Poster</h2>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Bolsa de empleo - Gestion de Puestos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="#" name="description" />
+    <meta content="#" name="author" />
 
+    <link rel="icon" href="~/Assets/img/brand/favicon.png" type="image/png">
+
+    <!-- DataTables -->
+    <link href="~/Assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="~/Assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Css -->
+    <link href="~/Assets/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="~/Assets/css/app.css" rel="stylesheet" type="text/css" />
+
+    <!-- Icons Css -->
+    <link href="~/Assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/Assets/vendor/_fortawesome/fontawesome-5/css/all.min.css" type="text/css">
+
+    <script src="~/Assets/libs/jquery/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+
+
+
+<body data-topbar="colored">
+
+    <div id="PlaceHolderHere"></div>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="index.html" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="~/Assets/img/brand/logo_2-03.png" alt="" height="30">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="~/Assets/img/brand/Logooscuro-05.png" alt="" height="50">
+                            </span>
+                        </a>
+
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                        <i class="fal fa-bars"></i>
+                    </button>
+
+                    <div class="d-flex">
+
+                        <div class="dropdown d-inline-block d-lg-none ml-2">
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+                                 aria-labelledby="page-header-search-dropdown">
+
+                                <form class="p-3">
+                                    <div class="form-group m-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-none d-sm-inline-block ml-1">@ViewData["nombre"]</span>
+                                <i class="far fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- item-->
+                                <a class="dropdown-item" href="#"><i class="fad fa-user-alt"></i> Perfil</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action("Logout", "Login")"><i class="fad fa-sign-out"></i> Salir</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100">
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Menu</li>
+
+                        <li>
+                            <a href="@Url.Action("Index","ModulosPoster")" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-briefcase"></i></div>
+                                <span>Empleos</span>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="@Url.Action("Solicitudes","ModulosPoster")" class=" waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-message"></i></div>
+                                <span>Ver solicitudes</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Sidebar -->
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+
+                <!-- Page-Title -->
+                <div class="page-title-box">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="page-title mb-1">Lista de empleos</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end page title end breadcrumb -->
+
+                <div class="page-content-wrapper">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="row" style="margin: auto;">
+                                            <h4 class="header-title" style="margin-left: 15px;">Puestos Postulados</h4>
+
+                                            <button style="margin-left: auto;" type="button" class="btn btn-success btn-rounded waves-effect waves-light" onclick="location.href='@Url.Action("CrearPuesto", "ModulosPoster")'">
+                                                <i class="fas fa-plus"></i>  Postular posición de trabajo
+                                            </button>
+                                        </div>
+
+                                        <hr />
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Puesto ID</th>
+                                                    <th>Posición</th>
+                                                    <th>Categoria</th>
+                                                    <th>Salario</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+
+
+                                            <tbody>
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.puesto_id)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.nombre)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Categoria)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Salario)</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light" data-toggle="ajax-modal" data-target="#editDpt"
+                                                                    data-url="@Url.Action($"EditPuesto/{item.puesto_id}")">
+                                                                <i class="fas fa-user-edit"></i>
+                                                            </button>  |
+                                                            <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light" id = "Delete" onclick = "deleteOrder('@item.puesto_id')">
+                                                                <i class="fas fa-trash"></i>
+                                                              </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                    </div>
+                    <!-- end container-fluid -->
+
+                </div>
+                <!-- end page-content-wrapper -->
+
+            </div>
+            <!-- End Page-content -->
+            <div id="foot">
+                <footer class="footer" id="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-right d-none d-sm-block">
+                                    2021© Progrmación III
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+
+
+
+        <style>
+            #footer.stikybottom {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function (event) {
+                var element = document.getElementById('foot');
+                var height = element.offsetHeight;
+                if (height < screen.height) {
+                    document.getElementById("footer").classList.add('stikybottom');
+                }
+            }, false);
+        </script>
+
+        <script type="text/javascript">
+            function deleteOrder(puesto_id) {
+                Swal.fire({
+                    title: "¿Estás seguro/a?",
+                    text: "Una vez eliminado no podrás reestablecerlo.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#DC3545",
+                    confirmButtonColor: "#28A745",
+                    confirmButtonText: "Sí, borrar.",
+                    closeOnConfirm: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+
+                            type: "POST",
+                            url: '@Url.Action("delete", "ModulosPoster")',
+                            data: { "puesto_id": puesto_id},
+                            cache: false,
+                            dataType: 'html',
+
+                        })
+                        Swal.fire({
+                            icon: 'success',
+                            title:'Eliminado',
+                            text:'Este puesto de trabajo se ha eliminado satisfactoriamente',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+
+                        setTimeout(function(){
+                            window.location.reload(1);
+                        }, 2005);
+
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Cancelado',
+                            text: 'Este registro no fue eliminado',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+
+
+
+            }
+        </script>
+
+
+
+        <!-- JAVASCRIPT -->
+        
+        <script src="~/Assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="~/Assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="~/Assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="~/Assets/libs/node-waves/waves.min.js"></script>
+
+        <script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
+
+        <!-- Required datatable js -->
+        <script src="~/Assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="~/Assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <!-- Buttons examples -->
+        <script src="~/Assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="~/Assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+        <script src="~/Assets/libs/jszip/jszip.min.js"></script>
+        <script src="~/Assets/libs/pdfmake/build/pdfmake.min.js"></script>
+        <script src="~/Assets/libs/pdfmake/build/vfs_fonts.js"></script>
+        <script src="~/Assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="~/Assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="~/Assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="~/Assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="~/Assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+        <!-- Datatable init js -->
+        <script src="~/Assets/js/pages/datatables.init.js"></script>
+
+        <script src="~/Assets/js/app.js"></script>
+        <script src="~/Assets/js/ModalWindows.js"></script>
+
+    </div>
+</body>
+</html>

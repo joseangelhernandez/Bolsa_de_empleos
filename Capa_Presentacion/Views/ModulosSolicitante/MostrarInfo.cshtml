@@ -1,22 +1,16 @@
-﻿@model IEnumerable<Capa_Presentacion.Models.puesto>
+﻿@model Capa_Presentacion.Models.puesto
+
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Bolsa de empleo - Puestos</title>
+    <title>Bolsa de empleo - Solicitar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="#" name="author" />
 
     <link rel="icon" href="~/Assets/img/brand/favicon.png" type="image/png">
-
-    <!-- DataTables -->
-    <link href="~/Assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- Responsive datatable examples -->
-    <link href="~/Assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
     <!-- Bootstrap Css -->
     <link href="~/Assets/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -27,8 +21,8 @@
     <link href="~/Assets/css/icons.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/Assets/vendor/_fortawesome/fontawesome-5/css/all.min.css" type="text/css">
 
-    <script src="~/Assets/libs/jquery/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Plugins css -->
+    <link href="~/Assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -109,7 +103,6 @@
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
-
                         <li>
                             <a href="@Url.Action("Index","ModulosSolicitante")" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-briefcase"></i></div>
@@ -143,7 +136,7 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h4 class="page-title mb-1">Lista de empleos</h4>
+                                <h4 class="page-title mb-1">Solicitud de trabajo</h4>
                             </div>
                         </div>
 
@@ -154,51 +147,56 @@
                 <div class="page-content-wrapper">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
-
-                                        <h4 class="header-title" style="margin-left: 15px;">Puestos disponibles</h4>
-
+                                        <h4 class="header-title">Envío de solicitudes</h4>
+                                        <p class="card-title-desc">Formulario de envío de solicitud.</p>
                                         <hr />
-                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Puesto ID</th>
-                                                    <th>Posición</th>
-                                                    <th>Categoria</th>
-                                                    <th>Salario</th>
-                                                    <th>Solicitar</th>
-                                                </tr>
-                                            </thead>
+                                        <h5>Descripción del puesto</h5>
+                                        @TempData["Descripcion"]
+
+                                        <h5 style="padding-top: 15px;">Salario del puesto</h5>
+                                         @TempData["Salario"]
+
+                                        <h5 style="padding-top: 15px;">Posición</h5>
+                                        @TempData["Posicion"]
+
+                                        <h5 style="padding-top: 15px;">Empresa contratante</h5>
+                                        @TempData["Empresa"]
+
+                                        <h5 style="padding-top: 15px;">Contacto</h5>
+                                        @TempData["Email"]
 
 
-                                            <tbody>
-
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td>@Html.DisplayFor(modelItem => item.puesto_id)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.nombre)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.Categoria)</td>
-                                                        <td>@Html.DisplayFor(modelItem => item.Salario)</td>
-                                                        <td>
-                                                            @Html.ActionLink(" ", "MostrarInfo", new { puesto_id = item.puesto_id }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light fas fa-share-square" })
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-
+                                        <div style="padding-top: 15px;">
+                                            @Html.Action("Solicitar", "ModulosSolicitante")
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
 
-                            </div> <!-- end col -->
-                        </div> <!-- end row -->
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        2018-6250 © HDEZ Jose Hernandez.
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="text-sm-right d-none d-sm-block">
+                                            Progrmación II
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
                     </div>
-                    <!-- end container-fluid -->
+                    <!-- end main content-->
 
                 </div>
+
                 <!-- end page-content-wrapper -->
 
             </div>
@@ -220,33 +218,8 @@
 
         </div>
 
-
-
-        <style>
-            #footer.stikybottom {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-        </style>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function (event) {
-                var element = document.getElementById('foot');
-                var height = element.offsetHeight;
-                if (height < screen.height) {
-                    document.getElementById("footer").classList.add('stikybottom');
-                }
-            }, false);
-        </script>
-
-
-
-
-
         <!-- JAVASCRIPT -->
-
+        <script src="~/Assets/libs/jquery/jquery.min.js"></script>
         <script src="~/Assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="~/Assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="~/Assets/libs/simplebar/simplebar.min.js"></script>
@@ -254,27 +227,10 @@
 
         <script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
 
-        <!-- Required datatable js -->
-        <script src="~/Assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="~/Assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <!-- Buttons examples -->
-        <script src="~/Assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="~/Assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-        <script src="~/Assets/libs/jszip/jszip.min.js"></script>
-        <script src="~/Assets/libs/pdfmake/build/pdfmake.min.js"></script>
-        <script src="~/Assets/libs/pdfmake/build/vfs_fonts.js"></script>
-        <script src="~/Assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="~/Assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="~/Assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-        <!-- Responsive examples -->
-        <script src="~/Assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="~/Assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-        <!-- Datatable init js -->
-        <script src="~/Assets/js/pages/datatables.init.js"></script>
+        <!-- dropzone js -->
+        <script src="~/Assets/libs/dropzone/min/dropzone.min.js"></script>
 
         <script src="~/Assets/js/app.js"></script>
-        <script src="~/Assets/js/ModalWindows.js"></script>
 
     </div>
 </body>

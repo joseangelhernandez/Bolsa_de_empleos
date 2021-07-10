@@ -4,86 +4,195 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BolsaEmpleosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ROLES">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categoria">
           <Key>
-            <PropertyRef Name="rol_id" />
+            <PropertyRef Name="categoria_id" />
           </Key>
-          <Property Name="rol_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="rol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="categoria_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <EntityType Name="USUARIOS">
+        <EntityType Name="puesto">
+          <Key>
+            <PropertyRef Name="puesto_id" />
+          </Key>
+          <Property Name="puesto_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nvarchar(max)" />
+          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="como_aplicar" Type="nvarchar(max)" />
+          <Property Name="ubicacion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="compania" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="logo" Type="nvarchar(max)" />
+          <Property Name="Categoria" Type="nvarchar(max)" />
+          <Property Name="Salario" Type="float" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="rol">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="rol_id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_USUARIOS_ROLES">
-          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
-          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="*" />
+        <EntityType Name="Solicitudes">
+          <Key>
+            <PropertyRef Name="id_solicitud" />
+          </Key>
+          <Property Name="id_solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="solicitante" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="posicion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="empresa" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="id_puesto" Type="int" />
+          <Property Name="CV" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_rol" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Solicitudes_puesto">
+          <End Role="puesto" Type="Self.puesto" Multiplicity="0..1" />
+          <End Role="Solicitudes" Type="Self.Solicitudes" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ROLES">
-              <PropertyRef Name="rol_id" />
+            <Principal Role="puesto">
+              <PropertyRef Name="puesto_id" />
             </Principal>
-            <Dependent Role="USUARIOS">
-              <PropertyRef Name="rol_id" />
+            <Dependent Role="Solicitudes">
+              <PropertyRef Name="id_puesto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BolsaEmpleosModelStoreContainer">
-          <EntitySet Name="ROLES" EntityType="Self.ROLES" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_USUARIOS_ROLES" Association="Self.FK_USUARIOS_ROLES">
-            <End Role="ROLES" EntitySet="ROLES" />
-            <End Role="USUARIOS" EntitySet="USUARIOS" />
+        <Association Name="FK_usuario_rol">
+          <End Role="rol" Type="Self.rol" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="categoria" EntityType="Self.categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="puesto" EntityType="Self.puesto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solicitudes" EntityType="Self.Solicitudes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Solicitudes_puesto" Association="Self.FK_Solicitudes_puesto">
+            <End Role="puesto" EntitySet="puesto" />
+            <End Role="Solicitudes" EntitySet="Solicitudes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BolsaEmpleosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ROLES">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="categoria">
           <Key>
-            <PropertyRef Name="rol_id" />
+            <PropertyRef Name="categoria_id" />
           </Key>
-          <Property Name="rol_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="rol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="USUARIOS" Relationship="Self.FK_USUARIOS_ROLES" FromRole="ROLES" ToRole="USUARIOS" />
+          <Property Name="categoria_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="USUARIOS">
+        <EntityType Name="puesto">
+          <Key>
+            <PropertyRef Name="puesto_id" />
+          </Key>
+          <Property Name="puesto_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="como_aplicar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ubicacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="compania" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Categoria" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Salario" Type="Double" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="Solicitudes" Relationship="Self.FK_Solicitudes_puesto" FromRole="puesto" ToRole="Solicitudes" />
+        </EntityType>
+        <EntityType Name="rol">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="rol_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ROLES" Relationship="Self.FK_USUARIOS_ROLES" FromRole="USUARIOS" ToRole="ROLES" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario_rol" FromRole="rol" ToRole="usuario" />
         </EntityType>
-        <Association Name="FK_USUARIOS_ROLES">
-          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
-          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="*" />
+        <EntityType Name="Solicitudes">
+          <Key>
+            <PropertyRef Name="id_solicitud" />
+          </Key>
+          <Property Name="id_solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="solicitante" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="posicion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="empresa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_puesto" Type="Int32" />
+          <NavigationProperty Name="puesto" Relationship="Self.FK_Solicitudes_puesto" FromRole="Solicitudes" ToRole="puesto" />
+          <Property Name="CV" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rol" Relationship="Self.FK_usuario_rol" FromRole="usuario" ToRole="rol" />
+        </EntityType>
+        <Association Name="FK_Solicitudes_puesto">
+          <End Role="puesto" Type="Self.puesto" Multiplicity="0..1" />
+          <End Role="Solicitudes" Type="Self.Solicitudes" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ROLES">
-              <PropertyRef Name="rol_id" />
+            <Principal Role="puesto">
+              <PropertyRef Name="puesto_id" />
             </Principal>
-            <Dependent Role="USUARIOS">
-              <PropertyRef Name="rol_id" />
+            <Dependent Role="Solicitudes">
+              <PropertyRef Name="id_puesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_rol">
+          <End Role="rol" Type="Self.rol" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_rol" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BolsaEmpleosEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ROLES" EntityType="Self.ROLES" />
-          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" />
-          <AssociationSet Name="FK_USUARIOS_ROLES" Association="Self.FK_USUARIOS_ROLES">
-            <End Role="ROLES" EntitySet="ROLES" />
-            <End Role="USUARIOS" EntitySet="USUARIOS" />
+          <EntitySet Name="categoria" EntityType="Self.categoria" />
+          <EntitySet Name="puesto" EntityType="Self.puesto" />
+          <EntitySet Name="rol" EntityType="Self.rol" />
+          <EntitySet Name="Solicitudes" EntityType="Self.Solicitudes" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_Solicitudes_puesto" Association="Self.FK_Solicitudes_puesto">
+            <End Role="puesto" EntitySet="puesto" />
+            <End Role="Solicitudes" EntitySet="Solicitudes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -91,23 +200,61 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BolsaEmpleosModelStoreContainer" CdmEntityContainer="BolsaEmpleosEntities">
-          <EntitySetMapping Name="ROLES">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.ROLES">
-              <MappingFragment StoreEntitySet="ROLES">
-                <ScalarProperty Name="rol_id" ColumnName="rol_id" />
-                <ScalarProperty Name="rol" ColumnName="rol" />
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="BolsaEmpleosEntities">
+          <EntitySetMapping Name="categoria">
+            <EntityTypeMapping TypeName="Model.categoria">
+              <MappingFragment StoreEntitySet="categoria">
+                <ScalarProperty Name="categoria_id" ColumnName="categoria_id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="USUARIOS">
-            <EntityTypeMapping TypeName="BolsaEmpleosModel.USUARIOS">
-              <MappingFragment StoreEntitySet="USUARIOS">
+          <EntitySetMapping Name="puesto">
+            <EntityTypeMapping TypeName="Model.puesto">
+              <MappingFragment StoreEntitySet="puesto">
+                <ScalarProperty Name="puesto_id" ColumnName="puesto_id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="como_aplicar" ColumnName="como_aplicar" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="compania" ColumnName="compania" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rol">
+            <EntityTypeMapping TypeName="Model.rol">
+              <MappingFragment StoreEntitySet="rol">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Solicitudes">
+            <EntityTypeMapping TypeName="Model.Solicitudes">
+              <MappingFragment StoreEntitySet="Solicitudes">
+                <ScalarProperty Name="CV" ColumnName="CV" />
+                <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+                <ScalarProperty Name="solicitante" ColumnName="solicitante" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="posicion" ColumnName="posicion" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+                <ScalarProperty Name="id_puesto" ColumnName="id_puesto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="Model.usuario">
+              <MappingFragment StoreEntitySet="usuario">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="rol_id" ColumnName="rol_id" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
